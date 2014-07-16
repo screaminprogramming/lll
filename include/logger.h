@@ -3,6 +3,8 @@
 /***********************************************************************
  * Low Latency Library: Logger
  *
+ * Released under the MIT license. The LICENSE file should be included
+ * in the top level of the source tree
  ***********************************************************************/
 #include <new>
 #include <stdarg.h>

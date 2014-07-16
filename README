@@ -1,0 +1,13 @@
+Low Latency Library
+
+A low latency C++ library.  One use case is low latency financial
+trading systems, however there are lots of other similar usecases. 
+
+The title "library" is a mis-nomer, the goal is to make this a
+header-only system, written in C++, that includes NO virtual
+functions (virtual functions were invented by Satan to slow down
+otherwise elegant code.)  Additionally, the code has no external
+dependencies other than the C++ 11 standard libraries.
+
+This code is released under the MIT licence.  A copy of the license
+file is included in the top level directory.
