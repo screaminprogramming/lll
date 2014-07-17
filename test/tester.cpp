@@ -1,24 +1,28 @@
+/***********************************************************************
+ * Low Latency Library: Test Program
+ *
+ * This is used just to test basic compilation and function of the LLL
+ * library.  This should move to unit tests at some point
+ *
+ * Released under the MIT license. The LICENSE file should be included
+ * in the top level of the source tree
+ ***********************************************************************/
 #include "logger.h"
-
-static char *myprint(const char *format, ...)  {
-    va_list args;
-    va_start (args, format);
-    vprintf (format, args);
-    va_end (args);
-    return NULL;
-}
 
 int main(int, char **) {
     char buffer[58]; 
+    char output[256];
     
     memset(buffer, 0x00, sizeof(buffer));
    
-    lll::logging::logitem *li = lll_log(buffer, sizeof(buffer), "got [%s] [%u] [%s]", "XXXX", 2, "YYYY");
+    size_t logsize = lll_log(buffer, sizeof(buffer), "got [%s] [%u] [%s]", "XXXX", 2, "YYYY");
 
-    if (!li)
+    if (!logsize)
         printf("Buffer too small\n");
     else
-        li->format(myprint);
+	lll::logging::logformat(buffer, output, sizeof(output));
+
+    printf("[%lu] %s\n", logsize, output);
 }
 
 
