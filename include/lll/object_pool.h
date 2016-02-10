@@ -8,6 +8,8 @@
  ***********************************************************************/
 #include <memory>
 
+#include "astack.h"
+
 namespace lll {
 
 template <typename T>

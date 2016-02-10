@@ -6,7 +6,7 @@
  * Released under the MIT license. The LICENSE file should be included
  * in the top level of the source tree
  ***********************************************************************/
-
+#include <atomic>
 namespace lll {
 template <typename T>
 class astack {
