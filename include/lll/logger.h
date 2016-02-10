@@ -202,4 +202,5 @@ static inline int logformat(void *item, char * str, size_t size)
 
 } // namespace logging
 } // namespace lll
+
 #endif
