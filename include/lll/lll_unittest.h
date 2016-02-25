@@ -8,6 +8,9 @@
  ***********************************************************************/
 #include <cstdio>
 #include <cassert>
+#include <exception>
+#include <sstream>
+
 namespace lll {
 namespace unittest {
 
@@ -20,6 +23,11 @@ class UnitTest {
     void (*fcn_)(void);
     UnitTest *next_;
 public:
+    class expect_error : public std::runtime_error {
+    public:
+        expect_error(const std::string s) : std::runtime_error(s) {}
+    };
+
     UnitTest(const char *name, void (*fcn)(void)) :
         name_(name),
         fcn_(fcn)
@@ -30,12 +38,31 @@ public:
 
     void run(void) const {
         std::printf("Starting  testcase %s\n", name_);
-        fcn_();
+        try {
+            fcn_();
+        } catch (const expect_error e) {
+            std::printf("Testcase %s failed: %s\n",
+                        name_,
+                        e.what());
+        }
+
         std::printf("Completed testcase %s\n", name_);
     }
 
     UnitTest *next() { return next_; }
+
+    template <typename T>
+    void expect_equal(int line, const T& a, const T& b) {
+
+        if (!(a == b)) {
+            std::stringstream buffer;
+            buffer << "Line " << line << ", " << a << " != " << b;
+            throw expect_error(buffer.str());
+        }
+    }
 };
+
+#define EXPECT_EQUAL(a,b) t.expect_equal(__LINE__, a, b)
 
 } // test
 } // lll

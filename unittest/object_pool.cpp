@@ -17,7 +17,7 @@ static UnitTest t(__FILE__,[](){
 
     auto pobj = pool.alloc();
 
-    assert(sizeof(pobj) == sizeof(void *));
+    EXPECT_EQUAL(sizeof(pobj), sizeof(void *)+1);
 
     });
 }

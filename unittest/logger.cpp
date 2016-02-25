@@ -15,7 +15,7 @@ static UnitTest t(__FILE__,[](){
     if (!logsize)
         printf("Buffer too small\n");
     else
-	lll::logging::logformat(buffer, output, sizeof(output));
+        lll::logging::logformat(buffer, output, sizeof(output));
     
     printf("[%lu] %s\n", logsize, output);
     
