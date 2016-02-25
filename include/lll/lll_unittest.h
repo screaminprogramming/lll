@@ -21,17 +21,17 @@ class UnitTest {
     UnitTest *next_;
 public:
     UnitTest(const char *name, void (*fcn)(void)) :
-	name_(name),
-	fcn_(fcn)
+        name_(name),
+        fcn_(fcn)
     {
-	next_ = lll_unittest_list;
-	lll_unittest_list = this;
+        next_ = lll_unittest_list;
+        lll_unittest_list = this;
     }
 
     void run(void) const {
-	std::printf("Starting  testcase %s\n", name_);
-	fcn_();
-	std::printf("Completed testcase %s\n", name_);
+        std::printf("Starting  testcase %s\n", name_);
+        fcn_();
+        std::printf("Completed testcase %s\n", name_);
     }
 
     UnitTest *next() { return next_; }

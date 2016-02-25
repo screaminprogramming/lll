@@ -16,22 +16,22 @@ public:
     astack() : head_() {}
 
     void push(T *entry) {
-	T *oldhead = nullptr;
-	do {
-	    oldhead = head_.load();
-	    entry->link = oldhead;
-	} while (!head_.compare_exchange_weak(oldhead, entry));
+        T *oldhead = nullptr;
+        do {
+            oldhead = head_.load();
+            entry->link = oldhead;
+        } while (!head_.compare_exchange_weak(oldhead, entry));
     }
 
     T* pop() {
-	T *ret = nullptr;
-	do {
-	    ret = head_.load();
-	    if (ret == nullptr)
-		return ret;
-	} while (!head_.compare_exchange_weak(ret, ret->link));
+        T *ret = nullptr;
+        do {
+            ret = head_.load();
+            if (ret == nullptr)
+                return ret;
+        } while (!head_.compare_exchange_weak(ret, ret->link));
 
-	return ret;
+        return ret;
     }
 };
 

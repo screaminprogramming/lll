@@ -18,22 +18,22 @@ class object_pool {
     size_t increment_;
 public:
     object_pool(size_t initial, size_t increment) : increment_(increment){
-	for (size_t i=0; i<initial; i++) {
-	    pool_.push(new T());
-	}
+        for (size_t i=0; i<initial; i++) {
+            pool_.push(new T());
+        }
     };
 
     ~object_pool() {
-	while (T* obj = pool_.pop())
-	    delete obj;
+        while (T* obj = pool_.pop())
+            delete obj;
     }
 
     void operator()(T *obj) {
-	pool_.push(obj);
+        pool_.push(obj);
     }
 
     std::unique_ptr<T> alloc() {
-	return std::unique_ptr<T>(pool_.pop());
+        return std::unique_ptr<T>(pool_.pop());
     }
 };
 

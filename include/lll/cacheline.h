@@ -16,8 +16,8 @@ namespace lll {
 template <typename T>
 class alignas(CACHELINE_SIZE) cacheline {
     union {
-	T _val;
-	char _[CACHELINE_SIZE];
+        T _val;
+        char _[CACHELINE_SIZE];
     };
 
 public:
@@ -26,44 +26,44 @@ public:
 
     operator T() const
     {
-	return _val;
+        return _val;
     }
 
     cacheline<T>&
     operator=(cacheline<T>& other)
     {
-	_val = other._val;
-	return *this;
+        _val = other._val;
+        return *this;
     }
     
     cacheline<T>&
     operator=(const cacheline<T>& other)
     {
-	_val = other._val;
-	return *this;
+        _val = other._val;
+        return *this;
     }
     
     cacheline<T>&
     operator=(T val)
     {
-	_val = val;
-	return *this;
+        _val = val;
+        return *this;
     }
 
     cacheline<T>&
     operator++()
     {
-	printf("in operator++ val is %lu\n", _val);
-	_val++;
-	return *this;
+        printf("in operator++ val is %lu\n", _val);
+        _val++;
+        return *this;
     }
     
     cacheline<T>&
     operator++(int z)
     {
-	printf("in operator++ int z is %d, val is %llu\n", z, _val);
-	_val++;
-	return *this;
+        printf("in operator++ int z is %d, val is %llu\n", z, _val);
+        _val++;
+        return *this;
     }
     
 };

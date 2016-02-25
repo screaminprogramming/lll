@@ -32,7 +32,7 @@ public:
 
     int format(char * str, size_t size) const
     {
-	return _formatfunc(this, str, size);
+        return _formatfunc(this, str, size);
     }
 };
 
@@ -46,9 +46,9 @@ public:
 
     template <typename... Arguments>
     inline int format(char * str, size_t size,
-		      const char *format, Arguments... as) const
+                      const char *format, Arguments... as) const
     {
-	return std::snprintf(str, size, format, as...);
+        return std::snprintf(str, size, format, as...);
     }
 };
 
@@ -63,11 +63,11 @@ protected:
 public:
 
     log_inner_(char *&strings, size_t &stringsize, Head val, Rest... rest) :
-	log_inner_<Rest...>(strings, stringsize, rest...), _val(val) {}
+        log_inner_<Rest...>(strings, stringsize, rest...), _val(val) {}
 
     template <typename... Arguments>
     inline int format(char * str, size_t size,
-		      const char *format, Arguments... as) const
+                      const char *format, Arguments... as) const
     {
         return log_inner_<Rest...>::format(str, size, format, as..., _val);
     }
@@ -81,12 +81,12 @@ class log_inner_ <const char *, Rest...> : public log_inner_<Rest...> {
 
     constexpr const char *nospace() const
     {
-	return "INSUFFICIENT_LOG_BUFFER_SPACE";
+        return "INSUFFICIENT_LOG_BUFFER_SPACE";
     }
 
     constexpr const char *nosize() const
     {
-	return "INVALID_SIZE_ON_LOG";
+        return "INVALID_SIZE_ON_LOG";
     }
     
 protected:
@@ -96,8 +96,8 @@ protected:
 public:
 
     log_inner_(char *&strings, size_t &stringsize,
-	       const char * val, Rest... rest) :
-	log_inner_<Rest...>(strings, stringsize, rest...)
+               const char * val, Rest... rest) :
+        log_inner_<Rest...>(strings, stringsize, rest...)
     {
         if (!stringsize) {
             _val = (char *)nosize();
@@ -117,7 +117,7 @@ public:
 
     template <typename... Arguments>
     inline int format(char * str, size_t size,
-		      const char *format, Arguments... as) const
+                      const char *format, Arguments... as) const
     { 
         return log_inner_<Rest...>::format(str, size, format, as..., _val);
     }
@@ -139,18 +139,18 @@ public:
           char *strings,
           size_t stringsize,
           Arguments... as) :
-	log_inner_<Arguments...>(strings, stringsize, as...),
-	_formatstr(formatstr)
+        log_inner_<Arguments...>(strings, stringsize, as...),
+        _formatstr(formatstr)
     {
-	logitem::_data = this;
-	logitem::_formatfunc = format;
+        logitem::_data = this;
+        logitem::_formatfunc = format;
     }
 
     static int format(const logitem *self, char * str, size_t size)
     {
         auto self_ = static_cast<const log_outer_<Arguments...> *>(self);
         return self_->log_inner_<Arguments...>::format(str, size,
-						       self_->_formatstr);
+                                                       self_->_formatstr);
     }
 };
 
@@ -173,7 +173,7 @@ static inline void log_format_check_(const char *, ...)
  ***********************************************************************/
 template <typename... Arguments> 
 static inline size_t log_(void *vbuffer, size_t buffer_size,
-			  const char *formatstr, Arguments... as)
+                          const char *formatstr, Arguments... as)
 {
     char *buffer = (char *)vbuffer;
 
@@ -183,16 +183,16 @@ static inline size_t log_(void *vbuffer, size_t buffer_size,
         return 0;
 
     new (buffer) log_outer_<Arguments...>(formatstr, 
-					  buffer + objsize,
-					  buffer_size - objsize,
-					  as...);
+                                          buffer + objsize,
+                                          buffer_size - objsize,
+                                          as...);
     return objsize;
 }
 
 } // namespace internal
 
-#define lll_log(b,s, format, ...)					\
-    (::lll::logging::internal::log_format_check_(format, __VA_ARGS__),	\
+#define lll_log(b,s, format, ...)                                       \
+    (::lll::logging::internal::log_format_check_(format, __VA_ARGS__),  \
      ::lll::logging::internal::log_(b,s,format, __VA_ARGS__))
 
 static inline int logformat(void *item, char * str, size_t size)
